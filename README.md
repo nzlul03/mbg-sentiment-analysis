@@ -7,9 +7,9 @@ A one-page app that classifies Indonesian tweets about the Free Nutritious Meals
 | Option | Model | How it runs |
 |---|---|---|
 | IndoBERT | [`Nzlul/indobert-mbg-sentiment`](https://huggingface.co/Nzlul/indobert-mbg-sentiment): [IndoBERT-lite](https://huggingface.co/indobenchmark/indobert-lite-base-p1) fine-tuned on 770 labelled tweets, ONNX (~47 MB) | WebAssembly (CPU) |
-| Qwen 3.5 | [`onnx-community/Qwen3.5-2B-ONNX-OPT`](https://huggingface.co/onnx-community/Qwen3.5-2B-ONNX-OPT), 4-bit (~1.4 GB) | WebGPU, few-shot prompt, label scoring |
+| Qwen 3.5 | [`onnx-community/Qwen3.5-0.8B-ONNX-OPT`](https://huggingface.co/onnx-community/Qwen3.5-0.8B-ONNX-OPT), 4-bit (~600 MB) | WebGPU, few-shot prompt, label scoring |
 
-Test-set results from the project notebook (165 tweets): IndoBERT-lite F1-macro 0.792, Qwen3.5-2B few-shot F1-macro 0.601.
+Test-set results from the project notebook (165 tweets): IndoBERT-lite F1-macro 0.792, Qwen3.5-0.8B zero-shot F1-macro 0.548 (few-shot 0.543).
 
 ## Files
 

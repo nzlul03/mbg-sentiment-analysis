@@ -1,4 +1,4 @@
-// Inference worker: runs IndoBERT-lite (WASM) and Qwen3.5-2B (WebGPU) off the main thread.
+// Inference worker: runs IndoBERT-lite (WASM) and Qwen3.5-0.8B (WebGPU) off the main thread.
 import {
     pipeline,
     env,
@@ -29,7 +29,7 @@ const FEW_SHOTS = [
     ['presiden prabowo subianto melakukan kunjungan mendadak ke dua sekolah di jakarta timur untuk meninjau pelaksanaan program makan bergizi gratis mbg pada senin 3 2 2025 pagi n prabowosubianto makanbergizigratis jaktim', 'netral'],
 ];
 
-const QWEN_ID = 'onnx-community/Qwen3.5-2B-ONNX-OPT';
+const QWEN_ID = 'onnx-community/Qwen3.5-0.8B-ONNX-OPT';
 
 const state = { bert: null, qwen: null, qwenTok: null, qwenLabelIds: null };
 

@@ -47,7 +47,9 @@ a { color: var(--green-800); }
 header { background: var(--green-900); color: #fff; padding: 22px 0 92px; }
 .top { display: flex; align-items: center; gap: 12px; margin-bottom: 44px; }
 .top img { width: 44px; height: 44px; }
-.top b { font-size: 17px; letter-spacing: -.01em; }
+.top img { width: 96px; height: 96px; filter: drop-shadow(0 6px 14px rgba(0, 0, 0, .3)); }
+.top b { font-size: 22px; letter-spacing: -.01em; line-height: 1.2; }
+.top b small { display: block; font-size: 14px; font-weight: 500; color: #a9c9bb; letter-spacing: 0; }
 .intro { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end; }
 .intro h1 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.1; letter-spacing: -.03em; margin: 0 0 14px; font-weight: 800; }
 .intro h1 span { color: var(--orange-400); }
@@ -60,7 +62,9 @@ main { margin-top: -60px; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 12px 32px -14px rgba(3, 58, 44, .25); display: grid; grid-template-columns: 1.1fr .9fr; overflow: hidden; }
 .input, .output { padding: 32px; }
 .output { background: var(--green-50); border-left: 1px solid var(--line); }
-.label { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 10px; }
+.label { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: var(--green-900); margin: 0 0 10px; }
+.label .n { width: 26px; height: 26px; border-radius: 50%; background: var(--green-800); color: #fff; font-size: 13px; display: grid; place-items: center; flex: none; }
+.sub { font-size: 13.5px; color: var(--ink-soft); margin: -4px 0 10px 36px; }
 
 .models { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
 .models input { position: absolute; opacity: 0; pointer-events: none; }
@@ -69,17 +73,22 @@ main { margin-top: -60px; }
 .models input:checked + label { border-color: var(--green-800); background: var(--green-800); color: #fff; }
 .models input:focus-visible + label { outline: 3px solid var(--orange-500); outline-offset: 2px; }
 
-textarea { width: 100%; min-height: 140px; resize: vertical; font: 500 16px/1.55 var(--font); color: var(--ink); padding: 14px 16px; border-radius: 14px; border: 2px solid var(--line); background: #fff; }
-textarea:focus { outline: none; border-color: var(--green-800); }
-.hint { font-size: 13px; color: var(--ink-soft); margin: 6px 0 14px; display: flex; justify-content: space-between; gap: 12px; }
-.hint span:last-child { font-family: var(--mono); white-space: nowrap; }
-.examples { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.ta-wrap { position: relative; }
+textarea { display: block; width: 100%; min-height: 150px; resize: vertical; font: 500 16px/1.55 var(--font); color: var(--ink); padding: 16px 16px 40px; border-radius: 14px; border: 2px solid var(--line); background: #fff; }
+textarea::placeholder { color: #8a9a93; }
+textarea:focus { outline: none; border-color: var(--green-800); box-shadow: 0 0 0 4px rgba(5, 80, 60, .1); }
+.ta-bar { position: absolute; left: 14px; right: 12px; bottom: 10px; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--mono); color: var(--ink-soft); pointer-events: none; }
+.ta-bar button { pointer-events: auto; font: 700 12.5px var(--font); color: var(--green-800); background: var(--green-50); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+.ta-bar button:hover { background: var(--green-100); }
+.hint { font-size: 13.5px; color: var(--ink-soft); margin: 14px 0 8px; }
+.examples { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
 .examples button { font: 600 13px var(--font); color: var(--green-800); background: #fff; border: 1px solid #b9d5c8; padding: 6px 12px; border-radius: 999px; cursor: pointer; }
 .examples button:hover { background: var(--green-50); }
 
 .run { width: 100%; font: 800 16px var(--font); color: var(--green-950); background: var(--orange-500); border: 0; border-radius: 14px; padding: 16px; cursor: pointer; }
 .run:hover { background: var(--orange-400); }
 .run[disabled] { opacity: .65; cursor: progress; }
+.run kbd { font: 500 12px var(--mono); opacity: .7; margin-left: 6px; }
 .status { margin-top: 12px; font-size: 13px; color: var(--ink-soft); min-height: 20px; }
 .progress { height: 6px; background: var(--line); border-radius: 6px; overflow: hidden; margin-top: 8px; }
 .progress b { display: block; height: 100%; width: 0; background: var(--orange-500); }
@@ -121,7 +130,11 @@ footer p { margin: 0 0 8px; }
   .input, .output { padding: 20px; }
   header { padding-bottom: 84px; }
   .top { margin-bottom: 28px; }
+  .top img { width: 72px; height: 72px; }
+  .top b { font-size: 19px; }
   .truck { width: 120px; }
+  .sub { margin-left: 0; }
+  .run kbd { display: none; }
 }
 </style>
 </head>
@@ -136,8 +149,8 @@ footer p { margin: 0 0 8px; }
 <header>
   <div class="wrap">
     <div class="top">
-      <img src="assets/mbg-logo.webp" alt="Makan Bergizi Gratis logo" width="44" height="44">
-      <b>MBG Sentiment Analysis</b>
+      <img src="assets/mbg-logo.webp" alt="Makan Bergizi Gratis logo" width="96" height="96">
+      <b>MBG Sentiment Analysis<small>Free Nutritious Meals (Makan Bergizi Gratis (MBG))</small></b>
     </div>
     <div class="intro">
       <div>
@@ -152,18 +165,22 @@ footer p { margin: 0 0 8px; }
 <main class="wrap">
   <div class="card">
     <div class="input">
-      <p class="label">Choose a model</p>
+      <p class="label"><span class="n">1</span>Choose a model</p>
       <div class="models" role="radiogroup" aria-label="Model">
         <div><input type="radio" name="model" id="m-indobert" value="indobert" checked><label for="m-indobert">IndoBERT</label></div>
         <div><input type="radio" name="model" id="m-qwen" value="qwen"><label for="m-qwen">Qwen 3.5</label></div>
       </div>
 
-      <p class="label"><label for="text">Tweet (in Indonesian)</label></p>
-      <textarea id="text" maxlength="500" placeholder="Contoh: Alhamdulillah anak saya jadi semangat sekolah sejak ada makan bergizi gratis"></textarea>
-      <div class="hint"><span>Or try an example:</span><span id="counter">0 / 500</span></div>
+      <p class="label"><span class="n">2</span><label for="text">Write your tweet</label></p>
+      <p class="sub">Use Bahasa Indonesia, just like a post on X. The models were trained on Indonesian tweets.</p>
+      <div class="ta-wrap">
+        <textarea id="text" maxlength="500" placeholder="Write your tweet about MBG here…"></textarea>
+        <div class="ta-bar"><span id="counter">0 / 500</span><button type="button" id="clear" hidden>Clear</button></div>
+      </div>
+      <p class="hint">Not sure what to write? Try an example:</p>
       <div class="examples" id="examples"></div>
 
-      <button class="run" id="run" type="button">Analyze sentiment</button>
+      <button class="run" id="run" type="button"><span id="run-label">Analyze sentiment</span><kbd id="run-kbd">Ctrl + Enter</kbd></button>
       <div class="status" id="status"></div>
       <div class="progress" id="progress" hidden><b id="bar"></b></div>
     </div>
@@ -197,7 +214,7 @@ footer p { margin: 0 0 8px; }
 </main>
 
 <footer class="wrap">
-  <p>Portfolio project by Nuzulul Khairu Nissa · Models: <a id="link-hf" href="https://huggingface.co/">IndoBERT-lite (fine-tuned)</a> and <a href="https://huggingface.co/Qwen/Qwen3.5-2B">Qwen3.5-2B</a> · Data: <a href="https://huggingface.co/datasets/tasyapndya/free_nutritious_meals_sentiment_x_id_2025">1,102 labelled tweets from X</a> · <a href="https://github.com/nzlul03/mbg-sentiment-analysis">Source code</a></p>
+  <p>Portfolio project by Nuzulul Khairu Nissa · Models: <a id="link-hf" href="https://huggingface.co/">IndoBERT-lite (fine-tuned)</a> and <a href="https://huggingface.co/Qwen/Qwen3.5-0.8B">Qwen3.5-0.8B</a> · Data: <a href="https://huggingface.co/datasets/tasyapndya/free_nutritious_meals_sentiment_x_id_2025">1,102 labelled tweets from X</a> · <a href="https://github.com/nzlul03/mbg-sentiment-analysis">Source code</a></p>
   <p>Independent project for demonstration only, not affiliated with the Government of Indonesia or the National Nutrition Agency (Badan Gizi Nasional). Predictions can be wrong.</p>
 </footer>
 
@@ -210,7 +227,7 @@ const DISPLAY = { negatif: 'Negative', netral: 'Neutral', positif: 'Positive' };
 const ICON = { negatif: '#i-neg', netral: '#i-neu', positif: '#i-pos' };
 const COLOR = { negatif: 'var(--neg)', netral: 'var(--neu)', positif: 'var(--pos)' };
 const MODEL_NAME = { indobert: 'IndoBERT', qwen: 'Qwen 3.5' };
-const SIZE = { indobert: '47 MB', qwen: '1.4 GB' };
+const SIZE = { indobert: '47 MB', qwen: '580 MB' };
 
 const EXAMPLES = [
   ['Gratitude', 'Alhamdulillah anak saya jadi semangat sekolah sejak ada makan bergizi gratis, terima kasih pemerintah'],
@@ -227,11 +244,22 @@ for (const [name, text] of EXAMPLES) {
   const b = document.createElement('button');
   b.type = 'button';
   b.textContent = name;
-  b.onclick = () => { textEl.value = text; updateCounter(); };
+  b.onclick = () => { textEl.value = text; updateCounter(); textEl.focus(); };
   $('examples').append(b);
 }
-const updateCounter = () => { $('counter').textContent = `${textEl.value.length} / 500`; };
+const updateCounter = () => {
+  $('counter').textContent = `${textEl.value.length} / 500`;
+  $('clear').hidden = textEl.value.length === 0;
+};
 textEl.addEventListener('input', updateCounter);
+$('clear').addEventListener('click', () => { textEl.value = ''; updateCounter(); textEl.focus(); });
+
+// Ctrl/Cmd + Enter analyzes the tweet
+const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
+$('run-kbd').textContent = isMac ? '⌘ + Enter' : 'Ctrl + Enter';
+textEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey) && !$('run').disabled) $('run').click();
+});
 
 // Same normalization as the training data: lowercase, no links/mentions/symbols
 function normalize(text) {
@@ -255,7 +283,7 @@ const mb = (bytes) => (bytes / 1e6).toFixed(0);
 function idleStatus() {
   const m = selected();
   setStatus(loaded[m] ? `${MODEL_NAME[m]} is ready.`
-    : m === 'qwen' ? 'Qwen 3.5 downloads about 1.4 GB on first use and needs a browser with WebGPU (recent Chrome or Edge).'
+    : m === 'qwen' ? 'Qwen 3.5 downloads about 580 MB on first use and needs a browser with WebGPU (recent Chrome or Edge).'
     : 'IndoBERT downloads about 47 MB on first use.');
 }
 idleStatus();
@@ -309,17 +337,18 @@ const runBtn = $('run');
 runBtn.addEventListener('click', async () => {
   const text = normalize(textEl.value);
   $('alert').hidden = true;
-  if (!text) { showAlert('Write a tweet first, or pick an example.'); return; }
+  if (!text) { showAlert('Write your tweet about MBG first, or pick one of the examples.'); textEl.focus(); return; }
   const model = selected();
   runBtn.disabled = true;
+  $('run-kbd').hidden = true;
   try {
     if (!loaded[model]) {
-      runBtn.textContent = `Loading ${MODEL_NAME[model]}…`;
+      $('run-label').textContent = `Loading ${MODEL_NAME[model]}…`;
       setStatus(`Preparing ${MODEL_NAME[model]} (${SIZE[model]})…`);
       await request(`load-${model}`, { type: 'load', model, modelId: HF_MODEL_ID });
       $('progress').hidden = true;
     }
-    runBtn.textContent = 'Analyzing…';
+    $('run-label').textContent = 'Analyzing…';
     const id = nextId++;
     const res = await request(id, { type: 'classify', model, text, id });
     render(model, res.probs, res.ms);
@@ -332,7 +361,8 @@ runBtn.addEventListener('click', async () => {
     }
   } finally {
     runBtn.disabled = false;
-    runBtn.textContent = 'Analyze sentiment';
+    $('run-label').textContent = 'Analyze sentiment';
+    $('run-kbd').hidden = false;
     idleStatus();
   }
 });
