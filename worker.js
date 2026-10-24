@@ -1,4 +1,4 @@
-// Inference worker: runs IndoBERT (WASM) and Qwen3.5-2B (WebGPU) off the main thread.
+// Inference worker: runs IndoBERT-lite (WASM) and Qwen3.5-2B (WebGPU) off the main thread.
 import {
     pipeline,
     env,
@@ -59,7 +59,7 @@ function progressReporter(model) {
 async function loadBert(modelId) {
     if (state.bert) return;
     state.bert = await pipeline('text-classification', modelId, {
-        dtype: 'q8',
+        dtype: 'fp32',
         device: 'wasm',
         progress_callback: progressReporter('indobert'),
     });

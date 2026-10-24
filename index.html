@@ -197,12 +197,12 @@ footer p { margin: 0 0 8px; }
 </main>
 
 <footer class="wrap">
-  <p>Portfolio project by Nuzulul Khairu Nissa · Models: <a id="link-hf" href="https://huggingface.co/">IndoBERT (fine-tuned)</a> and <a href="https://huggingface.co/Qwen/Qwen3.5-2B">Qwen3.5-2B</a> · Data: <a href="https://huggingface.co/datasets/tasyapndya/free_nutritious_meals_sentiment_x_id_2025">1,102 labelled tweets from X</a> · <a href="https://github.com/nzlul03/mbg-sentiment-analysis">Source code</a></p>
+  <p>Portfolio project by Nuzulul Khairu Nissa · Models: <a id="link-hf" href="https://huggingface.co/">IndoBERT-lite (fine-tuned)</a> and <a href="https://huggingface.co/Qwen/Qwen3.5-2B">Qwen3.5-2B</a> · Data: <a href="https://huggingface.co/datasets/tasyapndya/free_nutritious_meals_sentiment_x_id_2025">1,102 labelled tweets from X</a> · <a href="https://github.com/nzlul03/mbg-sentiment-analysis">Source code</a></p>
   <p>Independent project for demonstration only, not affiliated with the Government of Indonesia or the National Nutrition Agency (Badan Gizi Nasional). Predictions can be wrong.</p>
 </footer>
 
 <script type="module">
-// Fine-tuned IndoBERT on Hugging Face (int8 ONNX in onnx/model_quantized.onnx)
+// Fine-tuned IndoBERT-lite on Hugging Face (fp32 ONNX in onnx/model.onnx)
 const HF_MODEL_ID = 'Nzlul/indobert-mbg-sentiment';
 
 const LABELS = ['negatif', 'netral', 'positif'];
@@ -210,7 +210,7 @@ const DISPLAY = { negatif: 'Negative', netral: 'Neutral', positif: 'Positive' };
 const ICON = { negatif: '#i-neg', netral: '#i-neu', positif: '#i-pos' };
 const COLOR = { negatif: 'var(--neg)', netral: 'var(--neu)', positif: 'var(--pos)' };
 const MODEL_NAME = { indobert: 'IndoBERT', qwen: 'Qwen 3.5' };
-const SIZE = { indobert: '125 MB', qwen: '1.4 GB' };
+const SIZE = { indobert: '47 MB', qwen: '1.4 GB' };
 
 const EXAMPLES = [
   ['Gratitude', 'Alhamdulillah anak saya jadi semangat sekolah sejak ada makan bergizi gratis, terima kasih pemerintah'],
@@ -256,7 +256,7 @@ function idleStatus() {
   const m = selected();
   setStatus(loaded[m] ? `${MODEL_NAME[m]} is ready.`
     : m === 'qwen' ? 'Qwen 3.5 downloads about 1.4 GB on first use and needs a browser with WebGPU (recent Chrome or Edge).'
-    : 'IndoBERT downloads about 125 MB on first use.');
+    : 'IndoBERT downloads about 47 MB on first use.');
 }
 idleStatus();
 document.querySelectorAll('input[name="model"]').forEach((r) => r.addEventListener('change', () => { $('alert').hidden = true; idleStatus(); }));
